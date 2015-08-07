@@ -1,0 +1,19 @@
+{
+  "name": "websockets-cell-game",
+  "version": "0.0.0",
+  "homepage": "https://github.com/tomhalley89/websockets-cell-game",
+  "authors": [
+    "tom halley <tom.halley@easyproperty.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "easeljs": "~0.8.1"
+  }
+}

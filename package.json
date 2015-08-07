@@ -1,0 +1,24 @@
+{
+  "name": "websockets-cell-game",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tomhalley89/websockets-cell-game.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/tomhalley89/websockets-cell-game/issues"
+  },
+  "dependencies": {
+    "ws": "~0.7.2"
+  },
+  "devDependencies": {
+    "bower": "~1.4.1"
+  }
+}
