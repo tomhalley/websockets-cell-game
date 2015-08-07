@@ -9,9 +9,24 @@ var Player = function() {
     self.pos_y = 0;
     self.size = 10;
 
+    self.init = function() {
+
+    };
+
     self.updatePosition = function() {
         Server.updatePlayerPosition(self);
-    }
+    };
+
+    self.addToStage = function(stage) {
+
+        var circle = new createjs.Shape();
+        circle.graphics.beginFill("DeepSkyBlue").drawCircle(0,0,50);
+        circle.x = self.pos_x;
+        circle.y = self.pos_y;
+        stage.addChild(circle);
+
+        stage.update();
+    };
 };
 
 var player = new Player();

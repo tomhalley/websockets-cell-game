@@ -3,19 +3,25 @@
  */
 var Player = require("./player.js");
 
-var players = [];
+var Game = function() {
+    var self = this;
 
-module.exports = {
-    playerJoined: function(connection) {
-        var player = new Player(connection);
+    var players = [];
+
+    self.playerJoined = function(connection) {
+        var player = new Player(connection, self);
         player.sendCurrentPlayers(players);
         players.push(player);
         player.sendState();
-    },
-    disconnectPlayer: function(player) {
+    };
+
+    self.disconnectPlayer = function(player) {
         players.splice(players.indexOf(player), 1);
-    },
-    updatePlayerPosition: function(player) {
+    };
+
+    self.updatePlayerPosition = function(player) {
 
     }
 };
+
+module.exports = Game;

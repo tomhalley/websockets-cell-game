@@ -5,15 +5,18 @@
     <title></title>
 </head>
 <body>
-
+    <canvas id="canvas" width="500" height="300"></canvas>
 </body>
 <script type="text/javascript" src="../bower_components/easeljs/lib/easeljs-0.8.1.min.js"></script>
 <script type="text/javascript" src="js/server.js"></script>
 <script type="text/javascript" src="js/player.js"></script>
 <script type="text/javascript">
     (function() {
+        var stage = new createjs.Stage("canvas");
+
         var server = new Server();
-        server.connect();
+        var player = server.connect();
+        player.addToStage(stage);
     })();
 </script>
 </html>

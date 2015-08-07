@@ -2,11 +2,10 @@
  * Created by tom on 07/08/15.
  */
 
-var Game = require("./game.js"),
-    Constants = require("./constants.js"),
+var Constants = require("./constants.js"),
     EventEmitter = require('events').EventEmitter;
 
-var Player = function(conn) {
+var Player = function(conn, game) {
     var self = this;
 
     self.pos_x = Constants.DEFAULT_POSITION_X;
@@ -23,6 +22,7 @@ var Player = function(conn) {
     };
 
     var sendMessage = function(message) {
+        console.log(message.type);
         conn.send(JSON.stringify(message));
     };
 
@@ -35,7 +35,7 @@ var Player = function(conn) {
         sendMessage({
             type: Constants.PLAYER_ACTIVE_PLAYERS,
             data: player_states
-        })
+        });
     };
 
     self.sendState = function() {
@@ -59,8 +59,7 @@ var Player = function(conn) {
     });
 
     conn.on('close', function() {
-        console.log("Hello World!");
-        Game.disconnectPlayer(self);
+        game.disconnectPlayer(self);
     });
 };
 

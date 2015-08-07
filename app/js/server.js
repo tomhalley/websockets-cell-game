@@ -20,6 +20,7 @@ var Server = function() {
     };
 
     self.handleMessage = function(event, data) {
+        console.log(data.type);
         switch(event)
         {
             case "PLAYER_ACTIVE_PLAYERS":
@@ -35,7 +36,6 @@ var Server = function() {
 
     socket.onmessage = function(event) {
         var data = JSON.parse(event.data);
-
         self.handleMessage(event.type, data);
     };
 
