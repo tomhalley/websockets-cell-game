@@ -1,5 +1,6 @@
 var WebSocketServer = require("ws").Server,
-    ws = new WebSocketServer({host: "10.11.12.101", port: 9000}),
+    Constants = require("./src/constants"),
+    ws = new WebSocketServer({host: Constants.CONFIG_SERVER_ADDRESS, port: 9000}),
     Game = require("./src/game.js");
 
 var game = new Game();

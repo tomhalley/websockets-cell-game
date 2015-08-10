@@ -2,7 +2,9 @@
  * Created by tom on 07/08/15.
  */
 
-var Player = function() {
+var Server = require("./server");
+
+module.exports = function() {
     var self = this;
 
     self.pos_x = 0;
@@ -28,5 +30,3 @@ var Player = function() {
         stage.update();
     };
 };
-
-var player = new Player();

@@ -2,14 +2,17 @@
  * Created by tom on 07/08/15.
  */
 
-var Server = function() {
+var Player = require("./player"),
+    Constants = require("./../../src/constants");
+
+module.exports = function() {
     var self = this;
 
     self.pos_x = null;
     self.pos_y = null;
     self.size = null;
 
-    var socket = new WebSocket("ws://10.11.12.101:9000/");
+    var socket = new WebSocket("ws://" + Constants.CONFIG_SERVER_ADDRESS + ":" + Constants.CONFIG_SERVER_PORT + "/");
 
     self.connect = function() {
         return new Player(socket);

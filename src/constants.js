@@ -3,6 +3,9 @@
  */
 
 module.exports = {
+    CONFIG_SERVER_ADDRESS: "localhost",
+    CONFIG_SERVER_PORT: "9000",
+
     DEFAULT_SIZE: 10,
     DEFAULT_POSITION_X: 0,
     DEFAULT_POSITION_Y: 0,
