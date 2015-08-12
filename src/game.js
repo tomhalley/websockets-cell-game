@@ -47,7 +47,7 @@ var Game = function() {
         });
     };
 
-    self.generateFood();
+    //self.generateFood();
 };
 
 module.exports = Game;

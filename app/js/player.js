@@ -2,6 +2,8 @@
  * Created by tom on 07/08/15.
  */
 
+var Constants = require("./../../src/constants");
+
 var Player = function(server) {
     var self = this;
 
@@ -16,7 +18,7 @@ var Player = function(server) {
         self.stage = stage;
 
         self.shape = new createjs.Shape();
-        self.shape.graphics.beginFill("DeepSkyBlue").drawCircle(0,0,self.size);
+        self.shape.graphics.beginFill("DeepSkyBlue").drawCircle(0,0, Constants.DEFAULT_SIZE);
         self.shape.x = x;
         self.shape.y = y;
         self.stage.addChild(self.shape);

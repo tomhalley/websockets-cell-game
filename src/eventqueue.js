@@ -18,7 +18,8 @@ var EventQueue = function() {
             self.emit("tick", queue);
             queue.length = 0;
         }
-        setTimeout(self.loop, 1000 / Constants.CONFIG_SERVER_TICK_RATE);
+
+        setTimeout(self.loop, 1000 / 60);
     };
 
     self.add = function(eventType, playerId, data) {

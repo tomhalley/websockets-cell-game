@@ -39,6 +39,8 @@ var Arena = function() {
         stage.addChild(shape);
         stage.update();
 
+        console.log(player);
+
         player.shape = shape;
         players[player.id] = player;
     };
@@ -48,7 +50,7 @@ var Arena = function() {
     };
 
     self.updatePlayerPosition = function(player) {
-        console.log(player.x + " " + player.y);
+        console.log(players);
         players[player.id].shape.x = player.x;
         players[player.id].shape.y = player.y;
 

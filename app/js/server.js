@@ -34,7 +34,10 @@ var Server = function() {
         switch(data.type)
         {
             case Constants.PLAYER_ACTIVE_PLAYERS:
-
+                var players = data.data;
+                players.every(function(player) {
+                    Arena.addPlayer(player);
+                });
                 break;
             case Constants.PLAYER_STARTING_STATE:
 
@@ -60,8 +63,12 @@ var Server = function() {
 
     socket.onmessage = function(event) {
         var data = JSON.parse(event.data);
-        for(var i = 0; i < data.length; i++) {
-            self.handleMessage(data[i]);
+        if(data instanceof Array) {
+            for(var i = 0; i < data.length; i++) {
+                self.handleMessage(data[i]);
+            }
+        } else {
+            self.handleMessage(data);
         }
     };
 };

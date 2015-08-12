@@ -16,9 +16,9 @@ var Player = function(conn, game) {
     self.x = Constants.DEFAULT_POSITION_X;
     self.y = Constants.DEFAULT_POSITION_Y;
     self.size = Constants.DEFAULT_SIZE;
+    self.color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 
     var handleMessage = function(message) {
-        console.log(message);
         switch(message.type)
         {
             case Constants.EVENT_PLAYER_POSITION_CHANGED:
@@ -60,9 +60,11 @@ var Player = function(conn, game) {
 
     self.getCurrentState = function() {
         return {
+            id: self.id,
             x: self.x,
             y: self.y,
-            size: self.size
+            size: self.size,
+            color: self.color
         }
     };
 
