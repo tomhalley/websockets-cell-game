@@ -27,8 +27,6 @@ var EventQueue = function() {
             playerId: playerId,
             data: data
         });
-
-        console.log(eventType);
     };
 };
 

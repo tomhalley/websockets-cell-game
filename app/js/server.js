@@ -3,96 +3,67 @@
  */
 
 var Player = require("./player"),
-    Constants = require("./../../src/constants");
+    Constants = require("./../../src/constants"),
+    Arena = require("./arena");
 
-module.exports = function() {
+var Server = function() {
     var self = this;
 
-    self.pos_x = null;
-    self.pos_y = null;
-    self.size = null;
+    var food = [];
 
     var socket = new WebSocket("ws://" + Constants.CONFIG_SERVER_ADDRESS + ":" + Constants.CONFIG_SERVER_PORT + "/");
 
     self.connect = function() {
-        return new Player(socket);
+        return new Player(self);
     };
 
-    self.updatePlayerPosition = function(player) {
-
+    self.updatePlayerPosition = function(x, y) {
+        self.sendMessage(Constants.EVENT_PLAYER_POSITION_CHANGED, {x:x, y:y});
     };
 
-    self.handleMessage = function(event, data) {
-        console.log(data.type);
-        switch(event)
+    self.sendMessage = function(event, data) {
+        data.type = event;
+        socket.send(JSON.stringify(data));
+    };
+
+    self.handleMessage = function(data) {
+        if(data === undefined) {
+            return;
+        }
+
+        switch(data.type)
         {
-            case "PLAYER_ACTIVE_PLAYERS":
+            case Constants.PLAYER_ACTIVE_PLAYERS:
 
                 break;
-            case "PLAYER_STARTING_STATE":
-                self.pos_x = data.pos_x;
-                self.pos_y = data.pos_y;
-                self.size = data.size;
+            case Constants.PLAYER_STARTING_STATE:
+
+                break;
+            case Constants.EVENT_FOOD_ADDED:
+                data = data.data;
+                Arena.addFood(data.x, data.y);
+                break;
+            case Constants.EVENT_PLAYER_POSITION_CHANGED:
+                data = data.data;
+                Arena.updatePlayerPosition(data);
+                break;
+            case Constants.EVENT_PLAYER_JOINED:
+                data = data.data;
+                Arena.addPlayer(data);
+                break;
+            case Constants.EVENT_PLAYER_LEFT:
+                data = data.data;
+                Arena.removePlayer(data.id);
                 break;
         }
     };
 
     socket.onmessage = function(event) {
         var data = JSON.parse(event.data);
-        self.handleMessage(event.type, data);
+        for(var i = 0; i < data.length; i++) {
+            self.handleMessage(data[i]);
+        }
     };
-
-    //socket.onopen = function(event) {
-    //    socket.send(JSON.stringify({type: constants.CONNECT, username: username}));
-    //};
-    //
-    //socket.onclose = function() {
-    //    alert("You were disconnected from the server");
-    //};
-    //
-    //socket.onmessage = function(event) {
-    //    var data = JSON.parse(event.data);
-    //
-    //    switch(data.type)
-    //    {
-    //        case constants.CLIENT_LIST:
-    //            refreshClientsList(data.body);
-    //            break;
-    //        case constants.USER_ID:
-    //            userId = data.body;
-    //            break;
-    //        case constants.MESSAGE:
-    //            alert(data.body.username + ": " + data.body.message);
-    //            break;
-    //    }
-    //};
-    //
-    //socket.onerror = function(event) {
-    //    console.log(event);
-    //};
-    //
-    //window.onbeforeunload = function() {
-    //    socket.onclose = function () {};
-    //    socket.close()
-    //};
-    //
-    //$("#send-message").click(function(e) {
-    //    console.log("Form submitted");
-    //    e.preventDefault();
-    //
-    //    var targetUserId = $("#chatbox").find('select :selected').val();
-    //
-    //    console.log(targetUserId);
-    //
-    //    var message = $("#message").val();
-    //
-    //    var obj = {
-    //        type: constants.MESSAGE,
-    //        target: targetUserId,
-    //        userId: userId,
-    //        message: message
-    //    };
-    //
-    //    socket.send(JSON.stringify(obj));
-    //});
 };
+
+module.exports = Server;

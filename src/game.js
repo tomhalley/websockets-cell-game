@@ -10,10 +10,12 @@ var Game = function() {
 
     var players = [];
 
+    var food = [];
+
     self.generateFood = function() {
         EventQueue.add(Constants.EVENT_FOOD_ADDED, null, {
-            x: Math.random() * 200,
-            y: Math.random() * 200
+            x: Math.random() * 704,
+            y: Math.random() * 984
         });
 
         setTimeout(self.generateFood, (Math.random() * (5 - 2) + 2) * 1000);
@@ -25,20 +27,23 @@ var Game = function() {
         player.sendState();
         players.push(player);
         EventQueue.add(Constants.EVENT_PLAYER_JOINED, player.id, {
-            x: player.pos_x,
-            y: player.pos_y
+            id: player.id,
+            x: player.x,
+            y: player.y,
+            size: player.size
         });
     };
 
     self.disconnectPlayer = function(player) {
         players.splice(players.indexOf(player), 1);
-        EventQueue.add(Constants.EVENT_PLAYER_LEFT, player.id);
+        EventQueue.add(Constants.EVENT_PLAYER_LEFT, player.id, {id: player.id});
     };
 
     self.updatePlayerPosition = function(player) {
         EventQueue.add(Constants.EVENT_PLAYER_POSITION_CHANGED, player.id, {
-            x: player.pos_x,
-            y: player.pos_y
+            id: player.id,
+            x: player.x,
+            y: player.y
         });
     };
 

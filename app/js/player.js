@@ -2,31 +2,40 @@
  * Created by tom on 07/08/15.
  */
 
-var Server = require("./server");
-
-module.exports = function() {
+var Player = function(server) {
     var self = this;
 
-    self.pos_x = 0;
-    self.pos_y = 0;
-    self.size = 10;
+    self.x = 0;
+    self.y = 0;
+    self.size = 25;
 
-    self.init = function() {
+    self.shape = null;
+    self.stage = null;
 
+    self.addToStage = function(stage, x, y) {
+        self.stage = stage;
+
+        self.shape = new createjs.Shape();
+        self.shape.graphics.beginFill("DeepSkyBlue").drawCircle(0,0,self.size);
+        self.shape.x = x;
+        self.shape.y = y;
+        self.stage.addChild(self.shape);
+        self.stage.update();
     };
 
-    self.updatePosition = function() {
-        Server.updatePlayerPosition(self);
+    self.movePlayer = function() {
+        var diffX = self.stage.mouseX - self.shape.x;
+        var diffY = self.stage.mouseY - self.shape.y;
+
+        self.x = self.shape.x += diffX / self.size;
+        self.y = self.shape.y += diffY / self.size;
+
+        server.updatePlayerPosition(self.x, self.y);
+
+        self.stage.update();
     };
 
-    self.addToStage = function(stage) {
-
-        var circle = new createjs.Shape();
-        circle.graphics.beginFill("DeepSkyBlue").drawCircle(0,0,50);
-        circle.x = self.pos_x;
-        circle.y = self.pos_y;
-        stage.addChild(circle);
-
-        stage.update();
-    };
+    createjs.Ticker.addEventListener("tick", self.movePlayer);
 };
+
+module.exports = Player;

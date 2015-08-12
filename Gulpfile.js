@@ -39,7 +39,7 @@ gulp.task("build-app", function() {
 });
 
 gulp.task('build-javascript', function () {
-    var b = browserify({entries: path.app_js, debug: true});
+    var b = browserify({entries: path.app_js});
 
     return b.bundle()
         .pipe(source('bundle.js'))

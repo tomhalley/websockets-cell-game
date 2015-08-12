@@ -3,7 +3,6 @@
  */
 
 var Constants = require("./constants.js"),
-    EventEmitter = require('events').EventEmitter,
     EventQueue = require("./eventqueue.js");
 
 var Player = function(conn, game) {
@@ -14,15 +13,18 @@ var Player = function(conn, game) {
         return v.toString(16);
     });
 
-    self.pos_x = Constants.DEFAULT_POSITION_X;
-    self.pos_y = Constants.DEFAULT_POSITION_Y;
+    self.x = Constants.DEFAULT_POSITION_X;
+    self.y = Constants.DEFAULT_POSITION_Y;
     self.size = Constants.DEFAULT_SIZE;
 
     var handleMessage = function(message) {
+        console.log(message);
         switch(message.type)
         {
-            case Constants.PLAYER_POSITION_CHANGED:
-                EventEmitter.emit(Constants.PLAYER_POSITION_CHANGED, self);
+            case Constants.EVENT_PLAYER_POSITION_CHANGED:
+                self.x = message.x;
+                self.y = message.y;
+                game.updatePlayerPosition(self);
                 break;
         }
     };
@@ -32,7 +34,6 @@ var Player = function(conn, game) {
     };
 
     var handleHeartbeat = function(data) {
-        console.log(data);
         if(data.playerId !== self.id) {
             sendMessage(data);
         }
@@ -59,8 +60,8 @@ var Player = function(conn, game) {
 
     self.getCurrentState = function() {
         return {
-            pos_x: self.pos_x,
-            pos_y: self.pos_y,
+            x: self.x,
+            y: self.y,
             size: self.size
         }
     };
@@ -74,6 +75,8 @@ var Player = function(conn, game) {
         game.disconnectPlayer(self);
         EventQueue.removeListener("tick", handleHeartbeat);
     });
+
+    EventQueue.on("tick", handleHeartbeat);
 };
 
 module.exports = Player;
