@@ -2,7 +2,7 @@
  * Created by tom on 07/08/15.
  */
 
-var Constants = require("./../../src/constants");
+var Constants = require("./../../src/common/constants");
 
 var Player = function(server) {
     var self = this;

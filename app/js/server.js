@@ -3,7 +3,7 @@
  */
 
 var Player = require("./player"),
-    Constants = require("./../../src/constants"),
+    Constants = require("./../../src/common/constants"),
     Arena = require("./arena");
 
 var Server = function() {

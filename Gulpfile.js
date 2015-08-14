@@ -17,7 +17,7 @@ var path = {
         "app/js/app.js",
         "app/js/player.js",
         "app/js/server.js",
-        "src/constants.js"
+        "src/common/constants.js"
     ]
 };
 

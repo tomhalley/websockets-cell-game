@@ -2,8 +2,8 @@
  * Created by tom on 07/08/15.
  */
 
-var Constants = require("./constants.js"),
-    EventQueue = require("./eventqueue.js");
+var Constants = require("./common/constants.js"),
+    ServiceLocator = require("./common/servicelocator");
 
 var Player = function(conn, game) {
     var self = this;
@@ -75,10 +75,10 @@ var Player = function(conn, game) {
 
     conn.on('close', function() {
         game.disconnectPlayer(self);
-        EventQueue.removeListener("tick", handleHeartbeat);
+        ServiceLocator.getEventQueue().removeListener("tick", handleHeartbeat);
     });
 
-    EventQueue.on("tick", handleHeartbeat);
+    ServiceLocator.getEventQueue().on("tick", handleHeartbeat);
 };
 
 module.exports = Player;

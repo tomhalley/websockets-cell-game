@@ -2,8 +2,7 @@
  * Created by tom on 11/08/15.
  */
 
-var Constants = require("constants"),
-    EventEmitter = require("events").EventEmitter;
+var EventEmitter = require("events").EventEmitter;
 
 var EventQueue = function() {
     var self = this,
@@ -33,4 +32,4 @@ var EventQueue = function() {
 
 EventQueue.prototype.__proto__ = EventEmitter.prototype;
 
-module.exports = new EventQueue();
+module.exports = EventQueue;

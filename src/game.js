@@ -2,18 +2,16 @@
  * Created by tom on 07/08/15.
  */
 var Player = require("./player.js"),
-    Constants = require("./constants.js"),
-    EventQueue = require("./eventqueue.js");
+    Constants = require("./common/constants.js"),
+    ServiceLocator = require("./common/servicelocator");
 
 var Game = function() {
     var self = this;
-
     var players = [];
-
-    var food = [];
+    var eventQueue = ServiceLocator.getEventQueue();
 
     self.generateFood = function() {
-        EventQueue.add(Constants.EVENT_FOOD_ADDED, null, {
+        eventQueue.add(Constants.EVENT_FOOD_ADDED, null, {
             x: Math.random() * 704,
             y: Math.random() * 984
         });
@@ -26,7 +24,7 @@ var Game = function() {
         player.sendCurrentPlayers(players);
         player.sendState();
         players.push(player);
-        EventQueue.add(Constants.EVENT_PLAYER_JOINED, player.id, {
+        eventQueue.add(Constants.EVENT_PLAYER_JOINED, player.id, {
             id: player.id,
             x: player.x,
             y: player.y,
@@ -36,11 +34,11 @@ var Game = function() {
 
     self.disconnectPlayer = function(player) {
         players.splice(players.indexOf(player), 1);
-        EventQueue.add(Constants.EVENT_PLAYER_LEFT, player.id, {id: player.id});
+        eventQueue.add(Constants.EVENT_PLAYER_LEFT, player.id, {id: player.id});
     };
 
     self.updatePlayerPosition = function(player) {
-        EventQueue.add(Constants.EVENT_PLAYER_POSITION_CHANGED, player.id, {
+        eventQueue.add(Constants.EVENT_PLAYER_POSITION_CHANGED, player.id, {
             id: player.id,
             x: player.x,
             y: player.y
