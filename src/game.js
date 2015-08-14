@@ -1,19 +1,23 @@
 /**
  * Created by tom on 07/08/15.
  */
-var Player = require("./player.js"),
-    Constants = require("./common/constants.js"),
-    ServiceLocator = require("./common/servicelocator");
+var Player = require('./player.js'),
+    Constants = require('./common/constants.js'),
+    ServiceLocator = require('./common/servicelocator');
 
 var Game = function() {
     var self = this;
     var players = [];
     var eventQueue = ServiceLocator.getEventQueue();
 
+    self.start = function() {
+        self.generateFood();
+    };
+
     self.generateFood = function() {
         eventQueue.add(Constants.EVENT_FOOD_ADDED, null, {
-            x: Math.random() * 704,
-            y: Math.random() * 984
+            x: Math.random() * Constants.CONFIG_CANVAS_WIDTH,
+            y: Math.random() * Constants.CONFIG_CANVAS_HEIGHT
         });
 
         setTimeout(self.generateFood, (Math.random() * (5 - 2) + 2) * 1000);
@@ -44,8 +48,6 @@ var Game = function() {
             y: player.y
         });
     };
-
-    //self.generateFood();
 };
 
 module.exports = Game;

@@ -39,22 +39,17 @@ var Arena = function() {
         stage.addChild(shape);
         stage.update();
 
-        console.log(player);
-
         player.shape = shape;
         players[player.id] = player;
     };
 
     self.removePlayer = function(id) {
-        delete players[id];
+        stage.removeChild(players[id].shape);
     };
 
     self.updatePlayerPosition = function(player) {
-        console.log(players);
-        players[player.id].shape.x = player.x;
-        players[player.id].shape.y = player.y;
-
-        stage.update();
+        createjs.Tween.get(players[player.id].shape)
+            .to({x: player.x, y: player.y});
     }
 };
 

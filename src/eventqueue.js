@@ -2,7 +2,8 @@
  * Created by tom on 11/08/15.
  */
 
-var EventEmitter = require("events").EventEmitter;
+var EventEmitter = require('events').EventEmitter,
+    util = require('util');
 
 var EventQueue = function() {
     var self = this,
@@ -14,7 +15,7 @@ var EventQueue = function() {
 
     self.loop = function() {
         if(queue.length > 0) {
-            self.emit("tick", queue);
+            self.emit('tick', queue);
             queue.length = 0;
         }
 
@@ -30,6 +31,6 @@ var EventQueue = function() {
     };
 };
 
-EventQueue.prototype.__proto__ = EventEmitter.prototype;
+util.inherits(EventQueue, EventEmitter);
 
 module.exports = EventQueue;

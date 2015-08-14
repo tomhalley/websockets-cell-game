@@ -9,6 +9,7 @@ ServiceLocator
     .setEventQueue(new EventQueue())
     .setGame(new Game());
 
+ServiceLocator.getGame().start();
 ServiceLocator.getEventQueue().start();
 
 ws.on('connection', function(ws) {

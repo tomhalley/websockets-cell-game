@@ -2,14 +2,14 @@
  * Created by tom on 07/08/15.
  */
 
-var Constants = require("./common/constants.js"),
-    ServiceLocator = require("./common/servicelocator");
+var Constants = require('./common/constants.js'),
+    ServiceLocator = require('./common/servicelocator');
 
 var Player = function(conn, game) {
     var self = this;
 
     self.id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
         return v.toString(16);
     });
 
@@ -34,20 +34,25 @@ var Player = function(conn, game) {
     };
 
     var handleHeartbeat = function(data) {
-        if(data.playerId !== self.id) {
-            sendMessage(data);
-        }
+        var newQueue = [];
+        data.every(function(event) {
+            if(event.playerId !== self.id) {
+                newQueue.push(event);
+            }
+        });
+
+        sendMessage(newQueue);
     };
 
     self.sendCurrentPlayers = function(players) {
-        var player_states = [];
+        var playerStates = [];
         players.every(function(p) {
-            player_states.push(p.getCurrentState());
+            playerStates.push(p.getCurrentState());
         });
 
         sendMessage({
             type: Constants.PLAYER_ACTIVE_PLAYERS,
-            data: player_states
+            data: playerStates
         });
     };
 
@@ -65,7 +70,7 @@ var Player = function(conn, game) {
             y: self.y,
             size: self.size,
             color: self.color
-        }
+        };
     };
 
     conn.on('message', function(message) {
@@ -75,10 +80,10 @@ var Player = function(conn, game) {
 
     conn.on('close', function() {
         game.disconnectPlayer(self);
-        ServiceLocator.getEventQueue().removeListener("tick", handleHeartbeat);
+        ServiceLocator.getEventQueue().removeListener('tick', handleHeartbeat);
     });
 
-    ServiceLocator.getEventQueue().on("tick", handleHeartbeat);
+    ServiceLocator.getEventQueue().on('tick', handleHeartbeat);
 };
 
 module.exports = Player;
