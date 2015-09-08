@@ -2,16 +2,16 @@
  * Created by tom on 07/08/15.
  */
 
-var Player = require("./player"),
-    Constants = require("./../../src/common/constants"),
-    Arena = require("./arena");
+var Player = require('./player'),
+    Constants = require('./../../src/common/constants'),
+    Arena = require('./arena');
 
 var Server = function() {
     var self = this;
 
     var food = [];
 
-    var socket = new WebSocket("ws://" + Constants.CONFIG_SERVER_ADDRESS + ":" + Constants.CONFIG_SERVER_PORT + "/");
+    var socket = new WebSocket('ws://' + Constants.CONFIG_SERVER_ADDRESS + ':' + Constants.CONFIG_SERVER_PORT + '/');
 
     self.connect = function() {
         return new Player(self);

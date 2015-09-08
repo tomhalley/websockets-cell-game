@@ -1,9 +1,12 @@
-var WebSocketServer = require("ws").Server,
-    Constants = require("./src/common/constants"),
-    ServiceLocator = require("./src/common/servicelocator"),
-    ws = new WebSocketServer({host: Constants.CONFIG_SERVER_ADDRESS, port: Constants.CONFIG_SERVER_PORT}),
-    Game = require("./src/game.js"),
-    EventQueue = require("./src/eventqueue.js");
+var WebSocketServer = require('ws').Server,
+    Constants = require('./src/common/constants'),
+    ServiceLocator = require('./src/common/servicelocator'),
+    ws = new WebSocketServer({
+        host: Constants.CONFIG_SERVER_ADDRESS,
+        port: Constants.CONFIG_SERVER_PORT
+    }),
+    Game = require('./src/game.js'),
+    EventQueue = require('./src/eventqueue.js');
 
 ServiceLocator
     .setEventQueue(new EventQueue())
@@ -16,4 +19,4 @@ ws.on('connection', function(ws) {
     ServiceLocator.getGame().playerJoined(ws);
 });
 
-console.log("Server listening on port " + Constants.CONFIG_SERVER_PORT);
+console.log('Server listening on port ' + Constants.CONFIG_SERVER_PORT);

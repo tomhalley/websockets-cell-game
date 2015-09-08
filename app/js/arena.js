@@ -33,7 +33,7 @@ var Arena = function() {
     self.addPlayer = function(player) {
         var shape = new createjs.Shape();
 
-        shape.graphics.beginFill("DeepSkyBlue").drawCircle(0,0, player.size);
+        shape.graphics.beginFill('DeepSkyBlue').drawCircle(0,0, player.size);
         shape.x = player.x;
         shape.y = player.y;
         stage.addChild(shape);
@@ -50,7 +50,7 @@ var Arena = function() {
     self.updatePlayerPosition = function(player) {
         createjs.Tween.get(players[player.id].shape)
             .to({x: player.x, y: player.y});
-    }
+    };
 };
 
 module.exports = new Arena();
